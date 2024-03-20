@@ -15,7 +15,8 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
-int main(void);
+int main(int ac, char **av, char **env);
 int _strcmp(char *string1, char *string2);
+char *user_input(char *b, size_t size);
 
 #endif
