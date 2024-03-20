@@ -1,27 +1,33 @@
 #include "main.h"
 /**
  * main - our big function to begin the code
- * Return - returns 0 on success
+ * Return: returns 0 on success
 */
 int main(void)
 {
-	char *b, *tok;
+	char *b = NULL, *tok;
 	size_t size = 32;
+	pid_t pid;
 
+	/* Set up a loop to continuasly recieve user input*/
 	b = malloc(sizeof(char) * size);
 	if (b == NULL)
-	{
-		return (-1);
-	}
-	/* Grabs the users input and stores it along with a \n */
+		exit(EXIT_FAILURE);
+	printf("Insert your command\n");
 	getline(&b, &size, stdin);
-	/* Should break up the the string and remove the \n*/
-	tok = strtok(b, " ");
-	while (tok != NULL)
+	tok = strtok(b, " \n");
+	/* Duplicate the process*/
+	pid = fork();
+	/* Child process*/
+	if (pid == 0)
 	{
-		printf("%s\n", tok);
-		tok = strtok(NULL, " \n");
+		printf("I'm the child process\n");
+		sleep(3);
+		exit(EXIT_SUCCESS);
 	}
+	/* This is the main process*/
+	wait(NULL);
+	printf("I'm the parent proccess\nThis is the token [%s]\n", tok);
 	free(b);
 	return (0);
 }
