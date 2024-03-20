@@ -5,7 +5,7 @@
 */
 int main(void)
 {
-	char *b;
+	char *b, *tok;
 	size_t size = 32;
 
 	b = malloc(sizeof(char) * size);
@@ -15,8 +15,13 @@ int main(void)
 	}
 	/* Grabs the users input and stores it along with a \n */
 	getline(&b, &size, stdin);
-	/* Should break up the the string */
-	printf("Did you just say: %s\n", b);
+	/* Should break up the the string and remove the \n*/
+	tok = strtok(b, " ");
+	while (tok != NULL)
+	{
+		printf("%s\n", tok);
+		tok = strtok(NULL, " \n");
+	}
 	free(b);
 	return (0);
 }
