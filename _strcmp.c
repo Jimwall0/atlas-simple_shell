@@ -12,7 +12,7 @@ int _strcmp(char *string1, char *string2)
 	for (num = 0; string1[num] != '\0'; num++)
 	{
 		if (string1[num] != string2[num])
-			return (0);
+			return (1);
 	}
-	return (1);
+	return (0);
 }
