@@ -11,27 +11,31 @@ int main(int ac, char **av, char **env)
 	char *b = NULL, *tok;
 	size_t size = BUFF_SIZE;
 	pid_t pid;
+	struct stat *buff;
 
-	(void)ac;
 	(void)env;
-	while ()
+	(void)ac;
+	printf("%s\n", PROMPT);
+	/* Takes input and turns it into a pointer array*/
+	tok = user_input(b, size);
+	buff = malloc(sizeof(struct stat));
+	if (buff == NULL)
 	{
-		printf("%s\n", PROMPT);
-		/* Takes input and turns it into a pointer array*/
-		tok = user_input(b, size);
-		/* Duplicate the process*/
-		pid = fork();
-		/* Child process*/
-		if (pid == 0)
-		{
-			if (execve(tok, av, NULL) == -1)
-				exit(EXIT_FAILURE);
-			exit(EXIT_SUCCESS);
-		}
-		/* This is the main process*/
-		wait(NULL);
+		free(buff);
 		free(b);
-		free(tok);
+		exit(EXIT_FAILURE);
 	}
+	/* Duplicate the process*/
+	pid = fork();
+	/* Child process*/
+	if (pid == 0)
+	{
+		execve(tok, av, NULL);
+	}
+	/* This is the main process*/
+	wait(NULL);
+	free(b);
+	free(buff);
+	free(tok);
 	return (0);
 }

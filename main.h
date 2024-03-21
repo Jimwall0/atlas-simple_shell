@@ -14,6 +14,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
 
 int main(int ac, char **av, char **env);
 int _strcmp(char *string1, char *string2);
