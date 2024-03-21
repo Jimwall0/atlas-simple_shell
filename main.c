@@ -1,6 +1,7 @@
 #include "main.h"
 #include <stdlib.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <string.h>
@@ -18,12 +19,14 @@
 int main(int argc, char **argv, char **envp)
 {
 	(void)argc;
-	(void)argv;
-	(void)envp;
 	char *buffer = NULL, *tok;
 	size_t size = BUFF_SIZE;
 	pid_t pid;
 	bool running = 1;
+	unsigned int found;
+	struct stat st;
+
+
 
 	while (running)
 	{
@@ -39,7 +42,7 @@ int main(int argc, char **argv, char **envp)
 			return (EXIT_FAILURE);
 		else if (pid == 0) /*child*/
 		{
-			if (execve(tok, argv, NULL) == -1)
+			if (execve(tok, argv, envp) == -1)
 			{
 				free(buffer);
 				free(tok);
@@ -49,6 +52,13 @@ int main(int argc, char **argv, char **envp)
 		}
 		else
 			wait(NULL); /*parent wait*/
+		found = stat(tok, &st);
+		printf("%s: ", tok);
+		if (found == 0)
+			printf("found\n");
+		else
+			printf("not found\n");
+
 		free(buffer);
 		free(tok);
 	}
