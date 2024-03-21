@@ -20,22 +20,24 @@ int main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	(void)envp;
-	char *buffer = NULL, *tok = NULL;
+	char *buffer = NULL, *tok;
 	size_t size = BUFF_SIZE;
 	pid_t pid;
 	bool running = 1;
 
 	while (running)
 	{
-		buffer = malloc(sizeof(char) * size);
-		if (buffer == NULL)
-			return (ERROR_MALLOC);
 		tok = user_input(buffer, size);
-
+		if (strcmp(tok, "exit") == 0) /*exit command for loop*/
+		{
+			free(buffer);
+			free(tok);
+			exit(EXIT_SUCCESS);
+		}
 		pid = fork();
-		if (pid < 0)
+		if (pid < 0) 
 			return (EXIT_FAILURE);
-		else if (pid == 0)
+		else if (pid == 0) /*child*/
 		{
 			if (execve(tok, argv, NULL) == -1)
 			{
@@ -46,12 +48,9 @@ int main(int argc, char **argv, char **envp)
 			exit(EXIT_SUCCESS);
 		}
 		else
-		{
-			wait(NULL);
-		}
-		if (strcmp(tok, "exit") == 0)
-			exit(EXIT_SUCCESS);
-		printf("%s\n", tok);
+			wait(NULL); /*parent wait*/
+		free(buffer);
+		free(tok);
 	}
 	free(buffer);
 	free(tok);
