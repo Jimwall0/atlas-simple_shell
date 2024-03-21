@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
 
 /**
  * main - entry point for simple shell
@@ -22,31 +23,36 @@ int main(int argc, char **argv, char **envp)
 	char *buffer = NULL, *tok = NULL;
 	size_t size = BUFF_SIZE;
 	pid_t pid;
+	bool running = 1;
 
-	buffer = malloc(sizeof(char) * size);
-	if (buffer == NULL)
-		return (ERROR_MALLOC);
-	tok = user_input(buffer, size);
-
-	pid = fork();
-	if (pid < 0)
-		return (EXIT_FAILURE);
-	else if (pid == 0)
+	while (running)
 	{
-		if (execve(tok, argv, NULL) == -1)
+		buffer = malloc(sizeof(char) * size);
+		if (buffer == NULL)
+			return (ERROR_MALLOC);
+		tok = user_input(buffer, size);
+
+		pid = fork();
+		if (pid < 0)
+			return (EXIT_FAILURE);
+		else if (pid == 0)
 		{
-			free(buffer);
-			free(tok);
-			exit(EXIT_FAILURE);
+			if (execve(tok, argv, NULL) == -1)
+			{
+				free(buffer);
+				free(tok);
+				exit(EXIT_FAILURE);
+			}
+			exit(EXIT_SUCCESS);
 		}
-		exit(EXIT_SUCCESS);
+		else
+		{
+			wait(NULL);
+		}
+		if (strcmp(tok, "exit") == 0)
+			exit(EXIT_SUCCESS);
+		printf("%s\n", tok);
 	}
-	else
-	{
-		wait(NULL);
-	}
-
-	printf("%s\n", tok);
 	free(buffer);
 	free(tok);
 	return (EXIT_SUCCESS);
