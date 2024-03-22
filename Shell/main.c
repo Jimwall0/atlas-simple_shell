@@ -16,7 +16,7 @@
  * Return: status
  */
 
-int main(int argc, char **argv, char **envp)
+int main(int argc, char **argv, char **env)
 {
 	(void)argc;
 	char *buffer = NULL, *tok;
