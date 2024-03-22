@@ -15,7 +15,7 @@ extern char **environ;
 
 char *_getenv(const char *name)
 {
-	const char *env_var, *env_name, *env_val;
+	char *env_var, *env_name, *env_val;
 	int i;
 
 	for (i = 0; environ[i] != NULL; i++)
@@ -28,3 +28,5 @@ char *_getenv(const char *name)
 	}
 	return (NULL);
 }
+
+/* When used please free strdup */
