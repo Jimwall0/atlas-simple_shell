@@ -21,5 +21,7 @@ typedef struct path_s
 
 char *_getenv(const char *name);
 path_t *tokpath(path_t **head, char *name);
+int _setenv(const char *name, const char *value, int overwrite);
+int addenv(char *new_var);
 
 #endif
