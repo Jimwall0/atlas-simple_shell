@@ -2,17 +2,16 @@
 /**
  * user_input - grabs the input of the user and
  * turns it into an array of tokens
- * @b: string
- * @size: amount of bytes used
  * Return: array on success, 1 on failure, and NULL for nothing
 */
-char **user_input(size_t size)
+char **user_input()
 {
 	char *tok, *buff = NULL;
 	char **new_arr = NULL;
 	int i;
+	size_t size = BUFF_SIZE;
 
-	new_arr = malloc(sizeof(char *) * 100);
+	new_arr = malloc(sizeof(char *) * 50);
 	if (new_arr == NULL)
 		exit (EXIT_FAILURE);
 
@@ -40,18 +39,10 @@ char **user_input(size_t size)
 		else
 			new_arr[i] = NULL;
 	}
-	/*asign to appropriate sized 2d array*/
-	cmd_arr = malloc(sizeof(char *) * i);
-	if (cmd_arr == NULL)
-		{
-			free(buff);
-			free2darray(new_arr);
-			exit (EXIT_FAILURE);
-		}
-
-	cmd_arr = new_arr;
-	free2darray(new_arr);
-	free(buff);
-
-	return (cmd_arr);
+	return (new_arr);
 }
+/**
+ * need to reallocate mem
+ * The way I had been doing was broken
+ * This currently works
+*/
