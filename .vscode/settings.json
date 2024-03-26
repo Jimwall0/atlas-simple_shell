@@ -1,6 +1,6 @@
 {
-		"C_Cpp.errorSquiggles": "disabled",
-		"files.associations": {
-			"main.h": "c"
-		}
+	"files.associations": {
+		"main": "c"
+	},
+	"C_Cpp.errorSquiggles": "disabled"
 }
