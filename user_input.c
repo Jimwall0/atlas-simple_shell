@@ -35,10 +35,20 @@ char **user_input()
 	{
 		tok = strtok(NULL, WHITESPACE);
 		if (tok != NULL)
+		{
 			new_arr[i] = strdup(tok);
+			if (new_arr[i] == NULL)
+			{
+				free2darray(new_arr);
+				free(buff);
+				exit (EXIT_FAILURE);
+			}
+		}
 		else
 			new_arr[i] = NULL;
 	}
+	free(buff);
+	free(tok);
 	return (new_arr);
 }
 /**

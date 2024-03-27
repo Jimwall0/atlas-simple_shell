@@ -2,7 +2,6 @@
 
 int main(int ac, char **av, char **env)
 {
-	size_t size = BUFF_SIZE;
 	char **cmd_arr = NULL;
 	int i = 0;
 
@@ -12,11 +11,16 @@ int main(int ac, char **av, char **env)
 	while (1)
 	{
 		printf("%s", PROMPT);
-		cmd_arr = user_input(size);
-		printf("%s\n", cmd_arr[0]);
+		cmd_arr = user_input();
 		for (i = 0; cmd_arr[i] != NULL; i++)
 		{
 			printf("%s\n", cmd_arr[i]);
+		}
+		free2darray(cmd_arr);
+		if (strcmp(cmd_arr[0], "exit") == 0)
+		{
+			free2darray(cmd_arr);
+			return (EXIT_SUCCESS);
 		}
 	}
 
