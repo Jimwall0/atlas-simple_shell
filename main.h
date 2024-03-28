@@ -5,7 +5,7 @@
 #define ERROR_MALLOC 77
 #define EXIT_F_STAT 23
 #define EXIT_F_ACCESS 24
-#define PROMPT "How can I help?"
+#define PROMPT "($)"
 #define WHITESPACE " \n\t\r"
 #define PATH_DELIM ":"
 #define BUFF_SIZE 1024
