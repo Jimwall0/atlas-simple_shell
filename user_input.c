@@ -11,37 +11,33 @@ char **user_input()
 	int i;
 	size_t size = BUFF_SIZE;
 
-	new_arr = malloc(sizeof(char *) * 50);
-	if (new_arr == NULL)
-		exit (EXIT_FAILURE);
-
-	buff = malloc(sizeof(char) * size);
-	if (buff == NULL)
+	new_arr = malloc(sizeof(char *) * 50); /*alloc for new_arr*/
+	buff = malloc(sizeof(char) * size); /*alloc for buffer*/
+	if (new_arr == NULL || buff == NULL) /*check both*/
 	{
 		free(new_arr);
-		exit(EXIT_FAILURE);
+		exit(ERROR_MALLOC);
 	}
-	/*get user input*/
-	if(getline(&buff, &size, stdin) < 0)
+	if (getline(&buff, &size, stdin) < 0) /*get user input*/
 	{
 		free(new_arr);
 		free(buff);
-		exit (EXIT_FAILURE);
+		exit(ERROR_MALLOC);
 	}
 	/*copy tokens*/
 	tok = strtok(buff, WHITESPACE);
 	new_arr[0] = strdup(tok);
-	for(i = 1; tok != NULL; i++)
+	for (i = 1; tok != NULL; i++)
 	{
 		tok = strtok(NULL, WHITESPACE);
 		if (tok != NULL)
 		{
 			new_arr[i] = strdup(tok);
-			if (new_arr[i] == NULL)
+			if (new_arr[0] == NULL || new_arr[i] == NULL)
 			{
 				free2darray(new_arr);
 				free(buff);
-				exit (EXIT_FAILURE);
+				exit(ERROR_MALLOC);
 			}
 		}
 		else
@@ -51,7 +47,7 @@ char **user_input()
 	free(tok);
 	return (new_arr);
 }
-/**
+/*
  * need to reallocate mem
  * The way I had been doing was broken
  * This currently works
