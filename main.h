@@ -16,6 +16,8 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 
+extern char **environ;
+
 int main(int ac, char **av, char **env);
 int _strcmp(char *string1, char *string2);
 char **user_input();
