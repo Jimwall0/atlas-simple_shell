@@ -16,11 +16,20 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 
+typedef struct path_s
+{
+	char *dir;
+	struct path_s *next;
+} path_t;
+
 extern char **environ;
 
 int main(int ac, char **av, char **env);
 int _strcmp(char *string1, char *string2);
 char **user_input();
 int free2darray(char **array);
+void freelist(path_t **head);
+char *pathfinder(path_t *head, char *cmd);
+path_t *pathlist(path_t **head);
 
 #endif

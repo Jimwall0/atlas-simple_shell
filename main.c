@@ -9,24 +9,35 @@
 int main(int ac, char **av, char **env)
 {
 	char **cmd_arr = NULL;
+	path_t *cmd_list = NULL;
 	int check = 0;
 	pid_t pid;
 
 	(void)ac;
 	(void)av;
 	(void)env;
+
+	pathlist(&cmd_list); /*get list of PATH*/
 	if (isatty(STDIN_FILENO))
 	{
 		while (check == 0)
 		{
 			printf("%s ", PROMPT);
 			cmd_arr = user_input();
-			if (strcmp(cmd_arr[0], "exit") == 0)
+			cmd_arr[0] = pathfinder(cmd_list, cmd_arr[0]);
+			if (cmd_arr[0] == NULL)
+			{
+				free2darray(cmd_arr);
+				continue;
+			}
+			else if (strcmp(cmd_arr[0], "exit") == 0)
 			{
 				check++;
 				free2darray(cmd_arr);
+				freelist(&cmd_list);
 				return (EXIT_SUCCESS);
 			}
+
 			pid = fork();
 			if (pid == 0)
 			{
@@ -58,6 +69,7 @@ int main(int ac, char **av, char **env)
 		}
 		wait(NULL);
 	}
+	freelist(&cmd_list);
 	free2darray(cmd_arr);
 	return (0);
 }
