@@ -1,10 +1,16 @@
 # Simple Shell
 
-This is a two week project, for "Atlas School," where my partner, Tsimmuaj, and I build our own version of the BASH shell. For this school project we are expected to learn about:
+This is a two week project, for "Atlas School," where we built our own version of the BASH shell. For this school project we are expected to learn about:
+
 - How a shell works
-- What are process IDs
-- 
-In this README you will read how to utilize it and it's functionality.
+- How to create proccesses and what are proccess IDs
+- How to suspend proccesses until another finishes
+- What are environment variables and how to manipulate them
+- How does the shell use the `PATH` to find programs
+- How to execute another program
+
+With the addition of these new topics and skills there came new challenges that we had to work around.  Some of those challenges were how to split the interactive and non-interactive modes, how to utilize the `PATH` in our own shell, learning more about a good README page, and more.  We also needed to learn about system calls and how to use them and input additional arguments into them from our own shell to work.
+<br>In this README you will read how to utilize it and it's functionality.
 
 ## The Shell
 
@@ -29,7 +35,7 @@ From within a command-line prompt (e.g. wsl, linux, ubuntu, etc.) the user may r
 ```
 user@user:~/atlas-simple_shell$ echo "<command>" | ./hsh
 ```
-where command is the user input to be run. Command must be in quotes.
+where \<command> is the user input to be run. Command must be in quotes.
 
 ## Commands Table
 
@@ -56,3 +62,5 @@ AUTHORS README.md freearray.c hsh main.c main.h man_1_simple_shell user_input.c
 ```
 `exit` - exits interactive mode
 
+## Authors
+See authors [here](~/atlas-simple_shell/AUTHORS)
