@@ -63,4 +63,4 @@ AUTHORS README.md freearray.c hsh main.c main.h man_1_simple_shell user_input.c
 `exit` - exits interactive mode
 
 ## Authors
-See authors [here](~/atlas-simple_shell/AUTHORS)
+See authors [here](./AUTHORS)
