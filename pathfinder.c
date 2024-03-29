@@ -3,7 +3,7 @@
 /**
  * _getenv - gets an environment variable
  * @name: name of variable to find
- * 
+ *
  * Return: name=value
 */
 
@@ -18,7 +18,7 @@ char *_getenv(const char *name)
 		env_name = strtok(env_var, "=");
 		env_val = strtok(NULL, "=");
 		if (strcmp(env_name, name) == 0)
-			return(strdup(env_val));
+			return (strdup(env_val));
 	}
 	return (NULL);
 }
@@ -47,12 +47,12 @@ path_t *pathlist(path_t **head)
 			return (NULL);
 		newNode->dir = strdup(token);
 		if (newNode->dir == NULL)
-			{
-				free(env_val);
-				free(newNode);
-				freelist(head);
-				return (NULL);
-			}
+		{
+			free(env_val);
+			free(newNode);
+			freelist(head);
+			return (NULL);
+		}
 		newNode->next = NULL;
 
 		if (*head == NULL)
@@ -73,7 +73,7 @@ path_t *pathlist(path_t **head)
 /**
  * freelist - frees a list
  * @head: pointer to head of list
- * 
+ *
  * use "&" to send address of head
  * Return: n/a
 */
@@ -98,7 +98,7 @@ void freelist(path_t **head)
  * pathfinder - finds a command path
  * @head: pointer to the head of a list
  * @cmd: command to find
- * 
+ *
  * Return: cmdpath on success, error string on failure
 */
 
