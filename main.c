@@ -8,58 +8,68 @@
 */
 int main(int ac, char **av, char **env)
 {
-	char *b = NULL, *tok;
-	size_t size = BUFF_SIZE;
+	char **cmd_arr = NULL;
+	path_t *cmd_list = NULL;
 	int check = 0;
 	pid_t pid;
 
 	(void)ac;
 	(void)av;
 	(void)env;
+
+	pathlist(&cmd_list); /*get list of PATH*/
 	if (isatty(STDIN_FILENO))
 	{
 		while (check == 0)
 		{
-			printf("%s\n", PROMPT);
-			getline(&b, &size, stdin);
-			tok = strtok(b, " \n");
+			printf("%s ", PROMPT);
+			cmd_arr = user_input();
+			cmd_arr[0] = pathfinder(cmd_list, cmd_arr[0]);
+			if (cmd_arr[0] == NULL)
+			{
+				free2darray(cmd_arr);
+				continue;
+			}
+			else if (strcmp(cmd_arr[0], "exit") == 0)
+			{
+				check++;
+				free2darray(cmd_arr);
+				freelist(&cmd_list);
+				return (EXIT_SUCCESS);
+			}
+
 			pid = fork();
 			if (pid == 0)
 			{
-				while (tok)
+				while (cmd_arr)
 				{
-					if (execve(tok, av, env) != 0)
+					if (execve(cmd_arr[0], cmd_arr, env) != 0)
 					{
-						free(b);
+						free2darray(cmd_arr);
 						exit(EXIT_FAILURE);
 					}
-					tok = strtok(NULL, " \n");
 				}
 				exit(EXIT_SUCCESS);
 			}
 			wait(NULL);
-			if (_strcmp(b, "exit\n") == 0)
-			{
-				check++;
-				free(b);
-			}
+			free2darray(cmd_arr);
 		}
 	}
 	else
 	{
-		getline(&b, &size, stdin);
-		tok = strtok(b, " \n");
+		cmd_arr = user_input();
 		pid = fork();
 		if (pid == 0)
 		{
-			if (execve(tok, av, env) != 0)
+			if (execve(cmd_arr[0], cmd_arr, env) != 0)
 			{
+				free2darray(cmd_arr);
 				exit(EXIT_FAILURE);
 			}
-			tok = strtok(NULL, " \n");
 		}
 		wait(NULL);
-		free(b);
 	}
+	freelist(&cmd_list);
+	free2darray(cmd_arr);
 	return (0);
 }
