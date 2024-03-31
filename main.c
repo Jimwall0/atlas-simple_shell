@@ -18,11 +18,12 @@ int main(int ac, char **av, char **env)
 	pathlist(&cmd_list); /*get list of PATH*/
 	while (check)
 	{
+		if (!isatty(STDIN_FILENO))
+			check = 0;
 		printf("%s ", PROMPT);
 		cmd_arr = user_input();
 		cmd_arr[0] = pathfinder(cmd_list, cmd_arr[0]);
-		if (!isatty(STDIN_FILENO))
-			check = 0;
+		
 		if (cmd_arr[0] == NULL)/*for cmd not found*/
 		{
 			free2darray(cmd_arr);
