@@ -10,21 +10,23 @@ int main(int ac, char **av, char **env)
 {
 	char **cmd_arr = NULL;
 	path_t *cmd_list = NULL;
-	int check = 0;
+	int check = 1;
 	pid_t pid;
 
 	(void)ac;
 	(void)av;
-	(void)env;
 
 	pathlist(&cmd_list); /*get list of PATH*/
 	if (isatty(STDIN_FILENO))
 	{
-		while (check == 0)
+		while (check)
 		{
 			printf("%s ", PROMPT);
 			cmd_arr = user_input();
-			cmd_arr[0] = pathfinder(cmd_list, cmd_arr[0]);
+			if (access(cmd_arr[0], F_OK) == 0)/*input with path and command*/
+				;
+			else
+				cmd_arr[0] = pathfinder(cmd_list, cmd_arr[0]);/*need to find path for command*/
 			if (cmd_arr[0] == NULL)
 			{
 				free2darray(cmd_arr);
@@ -58,18 +60,32 @@ int main(int ac, char **av, char **env)
 	else
 	{
 		cmd_arr = user_input();
+		if (access(cmd_arr[0], F_OK) == 0)/*input with path and command*/
+			;
+		else
+			cmd_arr[0] = pathfinder(cmd_list, cmd_arr[0]);/*need to find path for command*/
+		if (cmd_arr[0] == NULL)
+		{
+			free2darray(cmd_arr);
+			freelist(&cmd_list);
+			return (EXIT_FAILURE);
+		}
 		pid = fork();
 		if (pid == 0)
 		{
-			if (execve(cmd_arr[0], cmd_arr, env) != 0)
+			while (cmd_arr)
 			{
-				free2darray(cmd_arr);
-				exit(EXIT_FAILURE);
+				if (execve(cmd_arr[0], cmd_arr, env) != 0)
+				{
+					free2darray(cmd_arr);
+					exit(EXIT_FAILURE);
+				}
 			}
+			exit(EXIT_SUCCESS);
 		}
 		wait(NULL);
+		free2darray(cmd_arr);
 	}
 	freelist(&cmd_list);
-	free2darray(cmd_arr);
 	return (0);
 }
