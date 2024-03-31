@@ -20,7 +20,10 @@ int main(int ac, char **av, char **env)
 	{
 		printf("%s ", PROMPT);
 		cmd_arr = user_input();
-		cmd_arr[0] = pathfinder(cmd_list, cmd_arr[0]);
+		if (access(cmd_arr[0], F_OK) == 0)
+			;
+		else
+			cmd_arr[0] = pathfinder(cmd_list, cmd_arr[0]);
 		if (!isatty(STDIN_FILENO))
 			check = 0;
 		if (cmd_arr[0] == NULL)/*for cmd not found*/
