@@ -47,18 +47,22 @@ int main(int ac, char **av, char **env)
 	}
 	else
 	{
-		getline(&b, &size, stdin);
-		tok = strtok(b, " \n");
-		pid = fork();
-		if (pid == 0)
+		check = getline(&b, &size, stdin);
+		if (check == EOF)
 		{
-			if (execve(tok, av, env) != 0)
+			perror("Error: EOF\n");
+			exit(EXIT_FAILURE);
+		}
+		tok = strtok(b, " \n");
+		while (*tok)
+		{
+			if (execve(tok, av, NULL) != 0)
 			{
+				perror("Error: execve\n");
 				exit(EXIT_FAILURE);
 			}
 			tok = strtok(NULL, " \n");
 		}
-		wait(NULL);
 		free(b);
 	}
 	return (0);
