@@ -11,6 +11,8 @@ This is a two week project, for "Atlas School," where we built our own version o
 
 With the addition of these new topics and skills there came new challenges that we had to work around.  Some of those challenges were how to split the interactive and non-interactive modes, how to utilize the `PATH` in our own shell, learning more about a good README page, and more.  We also needed to learn about system calls and how to use them and input additional arguments into them from our own shell to work.
 <br>In this README you will read how to utilize it and it's functionality.
+## Flow Chart
+![0](https://github.com/Jimwall0/atlas-simple_shell/assets/89785615/2e62cf86-2adc-4805-9d0b-ad4b0eba8f97)
 
 ## The Shell
 
