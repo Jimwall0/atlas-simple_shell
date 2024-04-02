@@ -11,7 +11,7 @@ char **user_input()
 	int i;
 	size_t size = BUFF_SIZE;
 
-	new_arr = malloc(sizeof(char *) * 50); /*alloc for new_arr*/
+	new_arr = malloc(sizeof(char *)); /*alloc for new_arr*/
 	buff = malloc(sizeof(char) * size); /*alloc for buffer*/
 	if (new_arr == NULL || buff == NULL) /*check both*/
 	{
